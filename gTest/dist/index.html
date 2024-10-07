@@ -2,13 +2,43 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./styles/styles.css">
-    <title>Document</title>
+    <script src="//cdn.jsdelivr.net/npm/phaser@3.21.0/dist/phaser.js"></script>
+    <style>
+        body {
+            margin: 0;
+        }
+    </style>
+
 </head>
 <body>
-<h2>hello 2</h2>    helllo world
-      <svg class="icon icon-cloud"><use xlink:href='img/sprite.svg#icon-cloud'></use></svg> 
-    <script src="./scripts/script.min.js"></script>
+    <script>
+    var mainScene = new Phaser.Scene("mainScene");
+
+    mainScene.preload = function () {
+        this.load.image('sky', '../assets/sky.jpg');
+        this.load.image('robot', '../assets/robot.png');
+    };
+
+    mainScene.create = function () {
+        this.add.image(400,300,'sky');
+        var robotImage = this.add.image(100,100,'robot');
+        // this.robotImage.setDisplaySize(10,10);
+        robotImage.setDisplaySize(200, 200)
+        robotImage.setPosition(400,300);
+    };
+
+    mainScene.update = function() {
+        
+    };
+
+    var config = {
+        type: Phaser.AUTO,
+        width: 800,
+        height: 600,
+        scene: [mainScene],
+    };
+
+    var game = new Phaser.Game(config);
+    </script>
 </body>
 </html>
