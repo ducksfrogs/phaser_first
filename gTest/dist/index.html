@@ -21,13 +21,36 @@
 
     mainScene.create = function () {
         this.add.image(400,300,'sky');
-        var robotImage = this.add.image(100,100,'robot');
+        // var robotImage = this.add.image(100,100,'robot');
+        this.robotImage = this.add.image(50,50,'robot');
         // this.robotImage.setDisplaySize(10,10);
-        robotImage.setDisplaySize(200, 200)
-        robotImage.setPosition(400,300);
+        this.robotImage.setDisplaySize(100, 100);
+        // robotImage.setPosition(400,300);
+        this.dx = 5;
+        this.dy = 0;
     };
 
     mainScene.update = function() {
+
+        if (this.robotImage.x > 750){
+            // this.dx = - this.dx;
+            this.robotImage.x = 750;
+            this.dx = 0;
+            this.dy = 5;
+        }
+
+        // if (this.robotImage.x < 50) {
+        //     this.dx = -this.dx;
+        // }
+
+        if( this.robotImage.y > 550) {
+            this.robotImage.y = 550;
+            this.dx = -5;
+            this.dy = 0;
+        }
+
+        this.robotImage.x += this.dx;
+        this.robotImage.y += this.dy;
         
     };
 
