@@ -16,7 +16,7 @@
 
     mainScene.preload = function () {
         this.load.image('map01', '../assets/map01.png');
-        this.load.image('treasure01', '../assets/treasure01.png');
+        this.load.image('enemy01', '../assets/enemy01.png');
     };
 
     mainScene.create = function () {
@@ -34,19 +34,27 @@
             y: 25
         });
 
-        this.treasureGroup = this.add.group();
+        this.enemyGroup = this.add.group();
 
-        console.log("hello");
-        for (var i = 0; i < 5; i++){
-            // var treasure = this.treasureGroup.create(0, 0, 'treasure01').setOrigin(0,0);
-            // treasure.setRandomPosition(0, 0, 750, 550);
-            var treasure = this.treasureGroup.create(0, 0, 'treasure01').setOrigin(0, 0);
-            treasure.setRandomPosition(0, 0, 750, 550);
-        }
+        this.timeEvent = this.time.addEvent({
+            delay: 1500,
+            callback: this.createEnemy,
+            loop: true,
+            callbackScope: this
+        });
+
     };
 
     mainScene.update = function() {
     };
+
+    mainScene.createEnemy = function(){
+        var enemy = this.enemyGroup.create(0, 0, 'enemy01').setOrigin(0, 0);
+
+        enemy.setRandomPosition(0, 0, 750, 550);
+
+        enemy.setDisplaySize(50, 50)
+    }
 
     var config = {
         type: Phaser.AUTO,
