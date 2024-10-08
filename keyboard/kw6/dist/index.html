@@ -28,26 +28,25 @@
 
 
     mainScene.update = function() {
-
-       var speed = 5;
+        var speed = 5;
 
        var cursors = this.input.keyboard.createCursorKeys();
 
        if(cursors.right.isDown){
-        this.robotImage.x -= speed;
-       }
-
-       if(cursors.left.isDown){
-        this.robotImage.x += speed;
-       }
-
-       if(cursors.space.isDown){
 
         this.angle++;
-
         if(this.angle >= 360){
             this.angle = 0;
         }
+
+       }
+
+       if(cursors.left.isDown){
+        this.angle--;
+        if(this.angle >= 360){
+            this.angle = 0;
+        }
+
 
        }
 

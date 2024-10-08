@@ -16,43 +16,28 @@
 
     mainScene.preload = function () {
         this.load.image('sky', '../assets/sky.jpg');
-        this.load.image('robot', '../assets/robot.png');
+        this.load.image('start', '../assets/start.png');
     };
 
     mainScene.create = function () {
         this.add.image(400,300,'sky');
-        this.robotImage = this.add.image(400,300,'robot');
-        this.robotImage.setDisplaySize(100, 100);
-        this.angle = 0;
-    };
+        this.text = this.add.text(300, 300, "Hello Phaser", {
+            font: '30px Open Sans',
+            fill: '#ff0000'
+        });
 
+        this.startImage = this.add.image(400, 400, 'start');
+        this.startImage.setInteractive (
+            { useHandCursor: true }
+        );
+        this.startImage.on('pointerdown', function(){
+            this.text.text = "How are you?"
+        }, this);
+    };
 
     mainScene.update = function() {
 
-       var speed = 5;
-
-       var cursors = this.input.keyboard.createCursorKeys();
-
-       if(cursors.right.isDown){
-        this.robotImage.x -= speed;
-       }
-
-       if(cursors.left.isDown){
-        this.robotImage.x += speed;
-       }
-
-       if(cursors.space.isDown){
-
-        this.angle++;
-
-        if(this.angle >= 360){
-            this.angle = 0;
-        }
-
-       }
-
-        this.robotImage.setAngle(this.angle);
-
+        
     };
 
     var config = {
