@@ -23,8 +23,10 @@
         this.add.image(400,300,'sky');
         this.robotImage = this.add.image(400,350,'robot');
         this.robotImage.setDisplaySize(100, 100);
-        this.dx = 2;
+        this.dx = 5;
+        this.dy = 5;
         this.w = 100;
+        this.h = 100;
     };
 
     mainScene.update = function() {
@@ -36,8 +38,19 @@
             this.dx = -this.dx;
         }
 
+        if (this.h < 100) {
+            this.dy = -this.dy;
+        }
+
+        if(this.h > 200) {
+            this.dy = -this.dy;
+        }
+
         this.w += this.dx;
-        this.robotImage.setDisplayWidth = this.w;
+        this.robotImage.displayWidth = this.w;
+
+        this.h += this.dy;
+        this.robotImage.displayHeight = this.h;
 
     };
 

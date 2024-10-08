@@ -23,21 +23,16 @@
         this.add.image(400,300,'sky');
         this.robotImage = this.add.image(400,350,'robot');
         this.robotImage.setDisplaySize(100, 100);
-        this.dx = 2;
-        this.w = 100;
+        this.angle = 0;
     };
 
     mainScene.update = function() {
-        if (this.w < 100) {
-            this.dx = -this.dx;
+        this.angle++;
+        if(this.angle >= 360){
+            this.angle = 0;
         }
 
-        if(this.w > 200) {
-            this.dx = -this.dx;
-        }
-
-        this.w += this.dx;
-        this.robotImage.setDisplayWidth = this.w;
+        this.robotImage.setAngle(this.angle);
 
     };
 
