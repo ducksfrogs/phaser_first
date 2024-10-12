@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="//cdn.jsdelivr.net/npm/phaser@3.21.0/dist/phaser.js"></script>
+    <style>
+        body {
+            margin: 0;
+        }
+    </style>
+
+</head>
+<body>
+    <script>
+    var mainScene = new Phaser.Scene("mainScene");
+
+    mainScene.preload = function () {
+        this.load.image('map01', './assets/map01.png');
+        this.load.image('enemy01', './assets/enemy05.png');
+    };
+
+    mainScene.create = function () {
+        var map01Group = this.add.group({
+            key: 'map01',
+            frameQuantity: 192
+        });
+
+        Phaser.Actions.GridAlign(map01Group.getChildren(), {
+            width: 16,
+            height: 12,
+            cellWidth: 50,
+            cellHeight: 50,
+            x: 25,
+            y: 25
+        });
+
+        this.count = 0;
+
+        this.enemyGroup = this.add.group();
+
+        this.text = this.add.text(700, 50, this.count, {
+            font: '40px Open Sans',
+            fill: '#0000ff'
+        })
+
+
+        this.timeEvent = this.time.addEvent({
+            delay: 1000,
+            callback: this.createEnemy,
+            repeat: 9,
+            callbackScope: this
+        })
+
+    };
+
+    mainScene.update = function() {
+        
+    };
+
+    // mainScene.countdown = function(){
+    //     this.count --;
+    //     this.text.text = this.count;
+
+    //     if (this.count == 0){
+    //         this.timeEvent.remove();
+    //         this.text.setFill("#ff0000");
+    //     }
+    // }
+
+    mainScene.createEnemy = function(){
+        this.count ++;
+        this.text.text = this.count;
+
+        if (this.count == 10){
+            this.timeEvent.remove();
+            this.text.setFill("#ff0000");
+        }
+        var enemy = this.enemyGroup.create(0, 0, 'enemy01').setOrigin(0,0);
+
+        enemy.setRandomPosition(0, 0, 750, 550);
+        enemy.setDisplaySize(50, 50);
+
+    }
+
+    var config = {
+        type: Phaser.AUTO,
+        width: 800,
+        height: 600,
+        scene: [mainScene],
+    };
+
+    var game = new Phaser.Game(config);
+    </script>
+</body>
+</html>
