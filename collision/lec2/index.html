@@ -16,6 +16,9 @@
 
     mainScene.preload = function () {
         this.load.image('map01', '../assets/map01.png');
+
+        this.load.spritesheet('treasure01', '../assets/treasure01.png' ,{ frameWidth: 32, frameHeight: 32});
+        this.load.image('enemy01', './assets/enemy05.png');
         this.load.spritesheet('player', '../assets/player1.png' ,{ frameWidth: 32, frameHeight: 32});
     };
 
@@ -85,43 +88,89 @@
         this.player.setDepth(1);
 
         this.createTreasure();
+
+        this.enemyGroup = this.add.group({
+            key: 'enemy01',
+            repeat: 5,
+        });
+
+        this.hp = 50;
+        this.hpText = this.add.text(30, 20, this.hp, {
+            font: '40px Open Sans',
+            fill: '#ff0000'
+        });
+
+        var enemies = this.enemyGroup.getChildren();
+
+        for (var i in enemies) {
+
+            var enemy = enemies[i];
+
+            enemy.setDisplaySize(50, 50);
+            enemy.setOrigin(0, 0);
+            enemy.setRandomPosition(0, 0, 800 - enemy.displayWidth, 600 - enemy.displayHeight);
+            enemy.isHit = false;
+        }
+
     };
 
     mainScene.update = function() {
         var speed = 5;
 
-    var cursors = this.input.keyboard.createCursorKeys();
+        var cursors = this.input.keyboard.createCursorKeys();
 
-    if(cursors.right.isDown) {
-        this.player.x += 5;
-        this.player.anims.play('right', true);
-    } else if(cursors.left.isDown) {
-        this.player.x -= 5;
-        this.player.anims.play('left', true);
-    } else if(cursors.up.isDown) {
-        this.player.y -= 5;
-        this.player.anims.play('up', true);
-    } else if(cursors.down.isDown) {
-        this.player.y += 5;
-        this.player.anims.play('down', true);
-    } else {
-        this.player.anims.stop();
-        this.player.anims.play('turn', true);
-    }
+        if(cursors.right.isDown) {
+            this.player.x += 5;
+            this.player.anims.play('right', true);
+        } else if(cursors.left.isDown) {
+            this.player.x -= 5;
+            this.player.anims.play('left', true);
+        } else if(cursors.up.isDown) {
+            this.player.y -= 5;
+            this.player.anims.play('up', true);
+        } else if(cursors.down.isDown) {
+            this.player.y += 5;
+            this.player.anims.play('down', true);
+        } else {
+            this.player.anims.stop();
+        }
 
-    var playerVector2 = this.player.getCenter();
-    var treasure01Vector2 = this.treasure01.getCenter();
+        var playerVector2 = this.player.getCenter();
+        var treasure01Vector2 = this.treasure01.getCenter();
 
-    if(playerVector2.distance(treasure01Vector2) <= 40){
-        this.score += 5;
+        if(playerVector2.distance(treasure01Vector2) <= 40){
+            this.score += 5;
 
-        this.scoreText.text = this.score;
+            this.scoreText.text = this.score;
 
-        this.treasure01.destroy();
+            this.treasure01.destroy();
 
-        this.createTreasure();
-        return;
-    }
+            this.createTreasure();
+            return;
+        }
+
+        var playerRect = this.player.getBounds();
+
+        
+        var enemies = this.enemyGroup.getChildren();
+
+        for (var i in enemies) {
+
+            var enemy = enemies[i];
+
+            var enemyRect = enemy.getBounds();
+
+            if (Phaser.Geom.Intersects.RectangleToRectangle(playerRect, enemyRect)) {
+                if (!enemy.isHit) {
+                    this.hp -=10;
+                    this.hpText.text = this.hp;
+
+                    enemy.isHit = true;
+                }
+            } else {
+                enemy.isHit = false;
+            }
+        }
 
 };
  
