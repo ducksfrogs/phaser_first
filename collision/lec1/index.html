@@ -114,6 +114,9 @@
 
     if(playerVector2.distance(treasure01Vector2) <= 40){
         this.score += 5;
+
+        this.scoreText = this.score;
+
         this.treasure01.destroy();
 
         this.createTreasure();
