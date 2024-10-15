@@ -137,41 +137,41 @@
         
         var enemies = this.enemyGroup.getChildren();
 
-        for (var i in enemies) {
+        // for (var i in enemies) {
 
-            var enemy = enemies[i];
-
-            var enemuyVector = enemy.getCenter();
-
-            if (playerVector2.distance(enemuyVector)<=40 && enemy.isHit == false ){
-                this.hp -=10;
-                this.hpText.text = this.hp;
-
-                enemy.isHit = true;
-            };
-        }
-
-
-        // var playerRect = this.player.getBounds();
-        // var enemies = this.enemyGroup.getChildren();
-
-        // for (var i in enemies){
         //     var enemy = enemies[i];
 
-        //     var enemyRect = enemy.getBounds();
+        //     var enemuyVector = enemy.getCenter();
 
-        //     if(Phaser.Geom.Intersects.RectangleToRectangle(playerRect, enemyRect)) {
-        //         if (!enemy.isHit) {
-        //             this.hp -= 10;
-        //             this.hpText.text = this.hp;
+        //     if (playerVector2.distance(enemuyVector)<=40 && enemy.isHit == false ){
+        //         this.hp -=10;
+        //         this.hpText.text = this.hp;
 
-        //             enemy.isHit = true;
-        //         } else {
-        //             enemy.isHit = false;
-        //         }
-        //     }
-
+        //         enemy.isHit = true;
+        //     };
         // }
+
+
+        var playerRect = this.player.getBounds();
+        var enemies = this.enemyGroup.getChildren();
+
+        for (var i in enemies){
+            var enemy = enemies[i];
+
+            var enemyRect = enemy.getBounds();
+
+            if(Phaser.Geom.Intersects.RectangleToRectangle(playerRect, enemyRect)) {
+                if (!enemy.isHit) {
+                    this.hp -= 10;
+                    this.hpText.text = this.hp;
+
+                    enemy.isHit = true;
+                } else {
+                    enemy.isHit = false;
+                }
+            }
+
+        };
 };
  
 mainScene.createEnemy = function() {
