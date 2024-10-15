@@ -172,6 +172,15 @@
 
 };
  
+mainScene.createEnemy = function(){
+
+    var enemy = this.enemyGroup.create(0, 0, "enemy07");
+    enemy.setOrigin(0, 0);
+    enemy.setRandomPosition(0, 0, 775, 575);
+    enemy.setDisplaySize(50, 50);
+    enemy.isHit = false;
+    enemy.setDepth(0);
+}
 
     var config = {
         type: Phaser.AUTO,
