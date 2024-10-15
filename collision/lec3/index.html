@@ -103,9 +103,7 @@
         var enemies = this.enemyGroup.getChildren();
 
         for (var i in enemies) {
-
             var enemy = enemies[i];
-
             enemy.setDisplaySize(50, 50);
             enemy.setOrigin(0, 0);
             enemy.setRandomPosition(0, 0, 800 - enemy.displayWidth, 600 - enemy.displayHeight);
@@ -174,12 +172,6 @@
 
 };
  
-// mainScene.createTreasure = function() {
-//     this.treasure01 = this.add.image(0, 0, 'treasure01').setOrigin(0, 0);
-
-//     this.treasure01.setRandomPosition(0, 0, 800 - this.treasure01.displayWidth, 600 - this.treasure01.displayHeight);
-//     this.treasure01.setDepth(0);
-// }
 
     var config = {
         type: Phaser.AUTO,
