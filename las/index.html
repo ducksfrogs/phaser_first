@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="//cdn.jsdelivr.net/npm/phaser@3.21.0/dist/phaser.js"></script>
+    <script src="./scripts/data.js"> </script>
+    <script src="./scripts/load.js"> </script>
+    <script src="./scripts/start.js"> </script>
+    <script src="./scripts/main.js"> </script>
+    <style>
+        body {
+            margin: 0;
+        }
+    </style>
+
+<script>
+
+    var config = {
+        type: Phaser.AUTO,
+        width: 800,
+        height: 600,
+        scene: [loadScene, startScene, mainScene ],
+    };
+
+    var game = new Phaser.Game(config);
+</script>
+</head>
+<body>
+</body>
+</html>
