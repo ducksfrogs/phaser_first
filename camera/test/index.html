@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="//cdn.jsdelivr.net/npm/phaser@3.21.0/dist/phaser.js"></script>
+    <style>
+        body {
+            margin: 0;
+        }
+    </style>
+
+</head>
+<body>
+    <script>
+    var mainScene = new Phaser.Scene("mainScene");
+
+    mainScene.preload = function () {
+        this.load.image('map01', '../../assets/images/map01.png');
+
+        this.load.spritesheet('treasure01', '../../assets/images/treasure01.png' ,{ frameWidth: 32, frameHeight: 32});
+        this.load.image('enemy01', './assets/enemy05.png');
+        this.load.spritesheet('player', '../..//assets/images/player1.png' ,{ frameWidth: 32, frameHeight: 32});
+    };
+
+    mainScene.create = function () {
+
+        var map01Group = this.add.group( {
+                key: 'map01',
+                frameQuantity: 192
+            });
+
+        Phaser.Actions.GridAlign(map01Group.getChildren(), {
+            width: 16,
+            height: 12,
+            cellWidth: 50,
+            cellHeight: 50,
+            x: 25,
+            y: 25
+        });
+
+        this.player = this.add.sprite(400, 300, 'player');
+
+        this.player.setScale(1.5);
+
+        this.player.setFrame(0);
+
+
+        this.anims.create({
+            key: 'turn',
+            frames: [{key: 'player', frame: 0}],
+            frameRate: 20,
+        });
+
+        this.anims.create({
+            key: 'left',
+            frames: this.anims.generateFrameNumbers('player', {start: 3, end: 5}),
+            frameRate: 10,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: 'right',
+            frames: this.anims.generateFrameNumbers('player', {start: 6, end: 8}),
+            frameRate: 10,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: 'up',
+            frames: this.anims.generateFrameNumbers('player', {start: 9, end: 11}),
+            frameRate: 10,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'down',
+            frames: this.anims.generateFrameNumbers('player', {start: 0, end: 2}),
+            frameRate: 10,
+            repeat: -1
+        });
+
+        this.score = 0;
+
+        this.scoreText = this.add.text(700, 50, this.score, {
+            font: '40px Open Sans',
+            fill: '#0000ff'
+        })
+
+        this.player.setDepth(1);
+
+        this.createTreasure();
+
+        this.enemyGroup = this.add.group({
+            key: 'enemy01',
+            repeat: 5,
+        });
+
+        this.hp = 50;
+        this.hpText = this.add.text(30, 20, this.hp, {
+            font: '40px Open Sans',
+            fill: '#ff0000'
+        });
+
+        var enemies = this.enemyGroup.getChildren();
+
+        for (var i in enemies) {
+
+            var enemy = enemies[i];
+
+            enemy.setDisplaySize(50, 50);
+            enemy.setOrigin(0, 0);
+            enemy.setRandomPosition(0, 0, 800 - enemy.displayWidth, 600 - enemy.displayHeight);
+            enemy.isHit = false;
+        }
+
+    };
+
+    mainScene.update = function() {
+        var speed = 5;
+
+        var cursors = this.input.keyboard.createCursorKeys();
+
+        if(cursors.right.isDown) {
+            this.player.x += 5;
+            this.player.anims.play('right', true);
+        } else if(cursors.left.isDown) {
+            this.player.x -= 5;
+            this.player.anims.play('left', true);
+        } else if(cursors.up.isDown) {
+            this.player.y -= 5;
+            this.player.anims.play('up', true);
+        } else if(cursors.down.isDown) {
+            this.player.y += 5;
+            this.player.anims.play('down', true);
+        } else {
+            this.player.anims.stop();
+        }
+
+        var playerVector2 = this.player.getCenter();
+        var treasure01Vector2 = this.treasure01.getCenter();
+
+        if(playerVector2.distance(treasure01Vector2) <= 40){
+            this.score += 5;
+
+            this.scoreText.text = this.score;
+
+            this.treasure01.destroy();
+
+            this.createTreasure();
+            return;
+        }
+
+        var playerRect = this.player.getBounds();
+
+        
+        var enemies = this.enemyGroup.getChildren();
+
+        for (var i in enemies) {
+
+            var enemy = enemies[i];
+
+            var enemyRect = enemy.getBounds();
+
+            if (Phaser.Geom.Intersects.RectangleToRectangle(playerRect, enemyRect)) {
+                if (!enemy.isHit) {
+                    this.hp -=10;
+                    this.hpText.text = this.hp;
+                    enemy.isHit = true;
+                }
+            } else {
+                enemy.isHit = false;
+            }
+        }
+
+};
+ 
+mainScene.createTreasure = function() {
+    this.treasure01 = this.add.image(0, 0, 'treasure01').setOrigin(0, 0);
+
+    this.treasure01.setRandomPosition(0, 0, 800 - this.treasure01.displayWidth, 600 - this.treasure01.displayHeight);
+    this.treasure01.setDepth(0);
+}
+
+    var config = {
+        type: Phaser.AUTO,
+        width: 800,
+        height: 600,
+        scene: [mainScene],
+    };
+
+    var game = new Phaser.Game(config);
+    </script>
+</body>
+</html>
