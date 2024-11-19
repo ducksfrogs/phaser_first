@@ -39,6 +39,19 @@ mainScene.create = function() {
   // ボールと地面を衝突させる
   this.physics.add.collider(this.ball, this.ground);
   
+  this.kabeGroup = this.physics.add.staticGroup();
+
+  var kabe1 = this.kabeGroup.create(500, 400, 'ground2');
+
+  kabe1.setDisplaySize(40, 320);
+  kabe1.refreshBody();
+
+  var kabe2 = this.kabeGroup.create(700, 400, 'ground2');
+
+  kabe2.setDisplaySize(40, 320);
+  kabe2.refreshBody();
+
+  this.physics.add.collider(this.ball, this.kabeGroup);
   
   
 };
@@ -46,6 +59,7 @@ mainScene.create = function() {
 mainScene.update = function() {
   var cursors = this.input.keyboard.createCursorKeys();
   if(cursors.space.isDown) {
+    this.ball.setVelocity(100, -500);
     
   }
 };

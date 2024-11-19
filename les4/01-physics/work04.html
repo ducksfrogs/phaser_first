@@ -40,9 +40,16 @@ mainScene.create = function() {
   this.physics.add.collider(this.ball, this.ground);
   
   // ここにプログラムを作成します
+  this.kabeGroup = this.physics.add.staticGroup();
+  var kabe1 = this.kabeGroup.create(650, 300, 'ground2');
+  kabe1.setDisplaySize(300, 40);
+  kabe1.refreshBody(); 
   
+  var kabe2 = this.kabeGroup.create(520, 240, 'ground2');
+  kabe2.setDisplaySize(40, 80);
+  kabe2.refreshBody(); 
   
-  
+  this.physics.add.collider(this.ball, this.kabeGroup);
   
 };
 
@@ -50,8 +57,7 @@ mainScene.update = function() {
   var cursors = this.input.keyboard.createCursorKeys();
   if(cursors.space.isDown) {
     // ここにプログラムを作成します
-    
-    
+    this.ball.setVelocity(100, -500); 
   }
 };
 
